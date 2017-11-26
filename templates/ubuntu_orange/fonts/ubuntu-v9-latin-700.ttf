@@ -1,0 +1,1449 @@
+comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Romanian Language Locale for Romania
+% Source: RAP
+% Address: Sankt Jo//rgens Alle 8
+%    DK-1615 Ko//benhavn V, Danmark
+% Contact: Keld Simonsen
+% Email: Keld.Simonsen@dkuug.dk
+% Tel: +45 - 31226543
+% Fax: +45 - 33256543
+% Language: ro
+% Territory: RO
+% Revision: 4.3
+% Date: 1996-10-15
+% Application: general
+% Users: general
+% Charset: UTF-8
+%
+% Corrections by:
+%  2006-01-07
+%  Eddy Petrisor <eddy.petrisor@gmail.com>
+
+LC_IDENTIFICATION
+title      "Romanian locale for Romania"
+source     "RAP"
+address    "Sankt Jorgens Alle 8, DK-1615 Kobenhavn V, Danmark"
+contact    ""
+email      "bug-glibc-locales@gnu.org"
+tel        ""
+fax        ""
+language   "Romanian"
+territory  "Romania"
+revision   "1.0"
+date       "2000-06-29"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+category "i18n:2012";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_COLLATE
+
+% Copy the template from ISO/IEC 14651
+copy "iso14651_t1"
+
+% The modern Romanian alphabet has 31 letters, ordered as below:
+% a a( a> b c d e f g h i i> j k l m n o p q r s s, t t, u v w x y z
+
+collating-symbol <a(>
+collating-symbol <a/>>
+collating-symbol <i/>>
+collating-symbol <s,>
+collating-symbol <t,>
+
+reorder-after <GRA>
+<CIR>
+<BRE>
+
+reorder-after <a>
+<a(>
+<a/>>
+reorder-after <i>
+<i/>>
+reorder-after <s>
+<s,>
+reorder-after <t>
+<t,>
+
+reorder-after <U0061>
+<U0103> <a(>;<BRE>;<MIN>;IGNORE
+<U00E2> <a/>>;<CIR>;<MIN>;IGNORE
+reorder-after <U0041>
+<U0102> <a(>;<BRE>;<CAP>;IGNORE
+<U00C2> <a/>>;<CIR>;<CAP>;IGNORE
+
+reorder-after <U0069>
+<U00EE> <i/>>;<CIR>;<MIN>;IGNORE
+reorder-after <U0049>
+<U00CE> <i/>>;<CIR>;<CAP>;IGNORE
+
+reorder-after <U0073>
+<U0219> <s,>;<CDI>;<MIN>;IGNORE
+<U015F> <s,>;<CDI>;<MIN>;IGNORE
+reorder-after <U0053>
+<U0218> <s,>;<CDI>;<CAP>;IGNORE
+<U015E> <s,>;<CDI>;<CAP>;IGNORE
+
+reorder-after <U0074>
+<U021B> <t,>;<CDI>;<MIN>;IGNORE
+<U0163> <t,>;<CDI>;<MIN>;IGNORE
+reorder-after <U0054>
+<U021A> <t,>;<CDI>;<CAP>;IGNORE
+<U0162> <t,>;<CDI>;<CAP>;IGNORE
+
+reorder-end
+
+END LC_COLLATE
+
+
+
+LC_CTYPE
+copy "i18n"
+
+%
+% Transliteration is _currently_ a good idea as most fonts/applications do not
+% have the correct diacritics for "t comma bellow" (U021A, U021B) and
+% "s comma bellow" (U0218, U0219). Thus we currently use and compromise with
+% "t cedilla" (U0162, U0163) - which, actually, does not belong to any
+% language - and "s cedilla" (U015E, U015F) - which is _not_ correct for
+% Romanian, but is correct for Turkish.
+%
+% This issue should be fixed in the future, when enough font and application
+% support will be provided in current operating systems.
+%
+translit_start
+include "translit_combining";""
+
+% if t/scomma is not available, try first t/scedilla
+<U0218> "<U015E>";"<U0053>"
+<U0219> "<U015F>";"<U0073>"
+<U021A> "<U0162>";"<U0054>"
+<U021B> "<U0163>";"<U0074>"
+
+% if t/scedilla is not available, try first t/scomma
+<U015E> "<U0218>";"<U0053>"
+<U015F> "<U0219>";"<U0073>"
+<U0162> "<U021A>";"<U0054>"
+<U0163> "<U021B>";"<U0074>"
+
+translit_end
+END LC_CTYPE
+
+
+
+LC_MESSAGES
+yesexpr "<U005E><U005B><U002B><U0031><U0044><U0064><U0059><U0079><U005D>"
+noexpr  "<U005E><U005B><U002D><U0030><U006E><U004E><U005D>"
+yesstr  "<U0064><U0061>"
+nostr   "<U006E><U0075>"
+END LC_MESSAGES
+
+
+LC_MONETARY
+% Since the 1st of July 2005, the new currency is the ROmanian New leu
+% the symbol is RON and 1 RON = 10000 ROL (old ROmanian Leu)...
+int_curr_symbol           "<U0052><U004F><U004E><U0020>"
+% but representing counted coins is made in the same way as before.
+currency_symbol           "<U004C><U0065><U0069>"
+% decimal point is comma
+mon_decimal_point         "<U002C>"
+% the separation of digits is made in groups of three
+% and the separator between the groups is the full stop (dot)
+mon_thousands_sep         "<U002E>"
+mon_grouping              3;3
+% the positive sign is not usualy represented
+positive_sign             ""
+% while the negative one is
+negative_sign             "<U002D>"
+% usualy one will display only two digits after the decimal point
+int_frac_digits           2
+frac_digits               2
+p_cs_precedes             1
+p_sep_by_space            1
+n_cs_precedes             1
+n_sep_by_space            1
+p_sign_posn               1
+n_sign_posn               1
+END LC_MONETARY
+
+
+LC_NUMERIC
+% same rules as for monetary apply for regular figures:
+% decimal point is comma
+decimal_point             "<U002C>"
+% and the separator between groups is full stop
+thousands_sep             "<U002E>"
+% the separation of figures is made in groups of three
+grouping                  3;3
+END LC_NUMERIC
+
+
+LC_TIME
+% abbreviated day names are (starting from Monday): Lu Ma Mi Jo Vi Sb Du
+abday   "<U0044><U0075>";"<U004C><U0075>";"<U004D><U0061>";"<U004D><U0069>";/
+        "<U004A><U006F>";"<U0056><U0069>";"<U0053><U0062>"
+%
+% Because in 1992 the Romanian Academy stated that within words the
+% writing of the letter i> (i circumflex - U00EE) should be replaced
+% by a> (acircumflex - U00E2), we use the post92 writing.
+% Note: The actual rule is more complex, but the case which applies for
+% Satruday is covered by the exposed explanation above.
+%
+% Day names are not capitalized:
+% duminic<abreve>, luni, mar<tcomma>i,
+% miercuri, joi, vineri,
+% s<acircumflex>mb<abreve>t<abreve>
+day     "<U0064><U0075><U006D><U0069><U006E><U0069><U0063><U0103>";/
+        "<U006C><U0075><U006E><U0069>";/
+        "<U006D><U0061><U0072><U021B><U0069>";/
+        "<U006D><U0069><U0065><U0072><U0063><U0075><U0072><U0069>";/
+        "<U006A><U006F><U0069>";/
+        "<U0076><U0069><U006E><U0065><U0072><U0069>";/
+        "<U0073><U00E2><U006D><U0062><U0103><U0074><U0103>"
+%
+% All month abbreviations are composed of the first three letters of the full
+% Romanian names of the months, except for November, whose abbreviation comes
+% from the Latin month name, thus the abbreviation is "nov"
+%
+% Month names are not capitalized:
+% ian feb mar apr mai iun iul aug sep oct nov dec
+abmon   "<U0069><U0061><U006E>";"<U0066><U0065><U0062>";/
+        "<U006D><U0061><U0072>";"<U0061><U0070><U0072>";/
+        "<U006D><U0061><U0069>";"<U0069><U0075><U006E>";/
+        "<U0069><U0075><U006C>";"<U0061><U0075><U0067>";/
+        "<U0073><U0065><U0070>";"<U006F><U0063><U0074>";/
+        "<U006E><U006F><U0076>";"<U0064><U0065><U0063>"
+%
+% Month names are _not_ capitalized in Romanian:
+% ianuarie februarie martie
+% aprilie mai iunie
+% iulie august septembrie
+% octombrie noiembrie decembrie
+mon     "<U0069><U0061><U006E><U0075><U0061><U0072><U0069><U0065>";/
+        "<U0066><U0065><U0062><U0072><U0075><U0061><U0072><U0069><U0065>";/
+        "<U006D><U0061><U0072><U0074><U0069><U0065>";/
+        "<U0061><U0070><U0072><U0069><U006C><U0069><U0065>";/
+        "<U006D><U0061><U0069>";/
+        "<U0069><U0075><U006E><U0069><U0065>";/
+        "<U0069><U0075><U006C><U0069><U0065>";/
+        "<U0061><U0075><U0067><U0075><U0073><U0074>";/
+        "<U0073><U0065><U0070><U0074><U0065><U006D><U0062><U0072><U0069><U0065>";/
+        "<U006F><U0063><U0074><U006F><U006D><U0062><U0072><U0069><U0065>";/
+        "<U006E><U006F><U0069><U0065><U006D><U0062><U0072><U0069><U0065>";/
+        "<U0064><U0065><U0063><U0065><U006D><U0062><U0072><U0069><U0065>"
+% Appropriate date and time representation (%c)
+% Romania uses daylight saving and the names of the time zones are
+% not widely known nor used
+%	"%a %d %b %Y %T %z"
+d_t_fmt "<U0025><U0061><U0020><U0025><U0064><U0020><U0025><U0062><U0020>/
+<U0025><U0059><U0020><U0025><U0054><U0020><U0025><U007A>"
+%
+% Appropriate date representation (%x)
+%	"%d.%m.%Y"
+d_fmt   "<U0025><U0064><U002E><U0025><U006D><U002E><U0025><U0059>"
+% 24 hour format is used,
+t_fmt   "<U0025><U0054>"
+%  thus no am/pm markers are defined/used
+am_pm   "";""
+% also am/pm hour display format is not used
+t_fmt_ampm ""
+% %A %-e %B %Y, %H:%M:%S %z
+date_fmt       "<U0025><U0041><U0020><U0025><U002D><U0065><U0020><U0025><U0042>/
+<U0020><U0025><U0059><U002C><U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053><U0020>/
+<U0025><U007A>"
+week 7;19971130;1
+first_weekday 2
+END LC_TIME
+
+
+LC_PAPER
+copy "i18n"
+END LC_PAPER
+
+
+LC_TELEPHONE
+tel_int_fmt    "<U002B><U0025><U0063><U0020><U0025><U0061><U0020><U0025>/
+<U006C>"
+int_prefix     "<U0034><U0030>"
+END LC_TELEPHONE
+
+
+LC_MEASUREMENT
+copy "i18n"
+END LC_MEASUREMENT
+
+
+LC_NAME
+% Format of a name, taken from the glibc locale for Ukrainian.
+% %f Family names.
+% %F Family names in uppercase.
+% %g First given name.
+% %G First given initial.
+% %l First given name with Latin letters.
+% %o Other shorter name.
+% %m Additional given names.
+% %M Initials for additional given names.
+% %p Profession.
+% %s Salutation, such as "Doctor"
+% %S Abbreviated salutation, such as "Mr." or "Dr."
+% %d Salutation, using the FDCC-sets conventions
+%    1 for the name_gen
+%    2 for name_mr
+%    3 for name_mrs
+%    4 for name_miss
+%    5 for name_ms
+% %t If the preceding field descriptor resulted in an empty string,
+%    then the empty string, else a <space>.
+%
+% FIXME: There are two prefered ways:
+% %d%t%s%t%g%t%f and %d%t%s%t%f%t%g%t%m
+% The current tendency is to use the first form, while the second is the most
+% popular form, it is widespread and widely known.
+% Now we stick to the traditional/old/second form: %d%t%s%t%f%t%g%t%m
+name_fmt    "<U0025><U0064><U0025><U0074><U0025><U0073><U0025>/
+<U0074><U0025><U0066><U0025><U0074><U0025><U0067><U0025><U0074>/
+<U0025><U006D>"
+% Dl.
+name_mr     "<U0044><U006C><U002E>"
+% D-na.
+name_mrs    "<U0044><U002D><U006E><U0061><U002E>"
+% D-ra.
+name_miss     "<U0044><U002D><U0072><U0061><U002E>"
+END LC_NAME
+
+LC_ADDRESS
+% Format of an address. The fields have the following meaning
+% (inspired originaly by glibc locale for Ukranian):
+
+% %n Person's name, possibly constructed with the LC_NAME
+%    "name_fmt" keyword. (it appears to be invalid)
+% %a Care of person, or organization.
+% %f Firm name.
+% %d Department name.
+% %b Building name.
+% %s Street or block (eg. Japanese) name.
+% %h House number or designation.
+% %N Insert an <end-of-line> if the previous descriptor
+%    value was not an empty string; otherwise ignore.
+% %t Insert a <space> if the previous descriptor value
+%    was not an empty string; otherwise ignore.
+% %r Room number, door designation.
+% %e Floor number.
+% %C Country designation, from the <country_post> keyword.
+% %l Local township within town or city. (it appears to be invalid)
+% %z Zip number, postal code.
+% %T Town, city.
+% %S State, province, or prefecture.
+% %c Country, as taken from data record.
+%
+% FIXME: it appears that %n and %l are not working; correct form is:
+% %n%N%f%N%a%d%N%s%t%h%N%b%t%e%t%r%N%l%z%t%T%N%S%t%c%N
+% implemented form:
+% %f%N%a%d%N%s%t%h%N%b%t%e%t%r%N%z%t%T%N%S%t%c%N
+postal_fmt    "<U0025><U0066>/
+<U0025><U004E><U0025><U0061><U0025><U0064><U0025><U004E>/
+<U0025><U0073><U0025><U0074><U0025><U0068><U0025><U004E>/
+<U0025><U0062><U0025><U0074><U0025><U0065><U0025><U0074>/
+<U0025><U0072><U0025><U004E><U0025><U007A>/
+<U0025><U0074><U0025><U0054><U0025><U004E><U0025><U0053>/
+<U0025><U0074><U0025><U0063><U0025><U004E>"
+% Country names are capitalized: Roma>nia
+country_name "<U0052><U006F><U006D><U00E2><U006E><U0069><U0061>"
+country_ab2 "<U0052><U004F>"
+country_ab3 "<U0052><U004F><U0055>"
+country_num 642
+country_car "<U0052><U004F>"
+% ISBN code is 973
+% see: http://homepages.cwi.nl/~dik/english/codes/isbn.html
+% and other sources
+country_isbn 973
+% FIXME: is it really RO?
+country_post "<U0052><U004F>"
+% language names are not capitalized in Romanian ( roma>na( )
+lang_name "<U0072><U006F><U006D><U00E2><U006E><U0103>"
+lang_ab "<U0072><U006F>"
+% set the terminology code to "ron" as defined in iso639-2
+lang_term "<U0072><U006F><U006E>"
+% set the bibliographic code to "rum" as defined in iso639-2
+lang_lib "<U0072><U0075><U006D>"
+END LC_ADDRESS
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Russian Language Locale for Ukraine
+% Source: RFC 2319
+% Contact: Denis V. Dmitrienko
+% Email: denis@denix.org
+% Language: ru
+% Territory: UA
+% Revision: 1.2
+% Date: 1998-05-03
+% Application: general
+% Users: general
+% Charset: KOI8-U
+
+LC_IDENTIFICATION
+title      "Russian locale for Ukraine"
+source     "RFC 2319"
+address    ""
+contact    ""
+email      "bug-glibc-locales@gnu.org"
+tel        ""
+fax        ""
+language   "Russian"
+territory  "Ukraine"
+revision   "1.0"
+date       "2000-06-29"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+category "i18n:2012";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "ru_RU"
+END LC_CTYPE
+
+LC_COLLATE
+copy "iso14651_t1"
+
+% iso14651_t1 is missing Ukrainian ghe
+collating-symbol <UKR-GHE>
+
+reorder-after <CYR-GZHE>
+<UKR-GHE>
+
+reorder-after <U0453>
+<U0491> <UKR-GHE>;<BAS>;<MIN>;IGNORE
+
+reorder-after <U0403>
+<U0490> <UKR-GHE>;<BAS>;<CAP>;IGNORE
+
+reorder-end
+END LC_COLLATE
+
+LC_MESSAGES
+yesexpr "<U005E><U005B><U002B><U0031><U0414><U0434><U0059><U0079><U005D>"
+noexpr  "<U005E><U005B><U002D><U0030><U041D><U043D><U004E><U006E><U005D>"
+yesstr  "<U0434><U0430>"
+nostr   "<U043D><U0435><U0442>"
+END LC_MESSAGES
+
+LC_MONETARY
+int_curr_symbol           "<U0055><U0041><U0048><U0020>"
+currency_symbol           "<U20B4>"
+mon_decimal_point         "<U002E>"
+mon_thousands_sep         "<U0020>"
+mon_grouping              3;3
+positive_sign             ""
+negative_sign             "<U002D>"
+int_frac_digits           2
+frac_digits               2
+p_cs_precedes             0
+p_sep_by_space            1
+n_cs_precedes             0
+n_sep_by_space            1
+p_sign_posn               1
+n_sign_posn               1
+END LC_MONETARY
+
+LC_NUMERIC
+decimal_point             "<U002C>"
+thousands_sep             "<U002E>"
+grouping                  3;3
+END LC_NUMERIC
+
+LC_TIME
+day     "<U0412><U043E><U0441><U043A><U0440><U0435><U0441><U0435><U043D><U044C><U0435>";/
+        "<U041F><U043E><U043D><U0435><U0434><U0435><U043B><U044C><U043D><U0438><U043A>";/
+        "<U0412><U0442><U043E><U0440><U043D><U0438><U043A>";/
+        "<U0421><U0440><U0435><U0434><U0430>";/
+        "<U0427><U0435><U0442><U0432><U0435><U0440><U0433>";/
+        "<U041F><U044F><U0442><U043D><U0438><U0446><U0430>";/
+        "<U0421><U0443><U0431><U0431><U043E><U0442><U0430>"
+abday   "<U0412><U0441><U043A>";/
+        "<U041F><U043D><U0434>";/
+        "<U0412><U0442><U043E>";/
+        "<U0421><U0440><U0434>";/
+        "<U0427><U0442><U0432>";/
+        "<U041F><U0442><U043D>";/
+        "<U0421><U0443><U0431>"
+mon     "<U042F><U043D><U0432><U0430><U0440><U044C>";/
+        "<U0424><U0435><U0432><U0440><U0430><U043B><U044C>";/
+        "<U041C><U0430><U0440><U0442>";/
+        "<U0410><U043F><U0440><U0435><U043B><U044C>";/
+        "<U041C><U0430><U0439>";/
+        "<U0418><U044E><U043D><U044C>";/
+        "<U0418><U044E><U043B><U044C>";/
+        "<U0410><U0432><U0433><U0443><U0441><U0442>";/
+        "<U0421><U0435><U043D><U0442><U044F><U0431><U0440><U044C>";/
+        "<U041E><U043A><U0442><U044F><U0431><U0440><U044C>";/
+        "<U041D><U043E><U044F><U0431><U0440><U044C>";/
+        "<U0414><U0435><U043A><U0430><U0431><U0440><U044C>"
+abmon   "<U042F><U043D><U0432>";/
+        "<U0424><U0435><U0432>";/
+        "<U041C><U0430><U0440>";/
+        "<U0410><U043F><U0440>";/
+        "<U041C><U0430><U0439>";/
+        "<U0418><U044E><U043D>";/
+        "<U0418><U044E><U043B>";/
+        "<U0410><U0432><U0433>";/
+        "<U0421><U0435><U043D>";/
+        "<U041E><U043A><U0442>";/
+        "<U041D><U043E><U044F>";/
+        "<U0414><U0435><U043A>"
+d_t_fmt "<U0025><U0061><U0020><U0025><U0064><U0020><U0025><U0062>/
+<U0020><U0025><U0059><U0020><U0025><U0054>"
+d_fmt     "<U0025><U0064><U002E><U0025><U006D><U002E><U0025><U0059>"
+t_fmt     "<U0025><U0054>"
+am_pm     "";""
+t_fmt_ampm ""
+week 7;19971130;1
+first_weekday 2
+END LC_TIME
+
+LC_PAPER
+copy "i18n"
+END LC_PAPER
+
+LC_TELEPHONE
+tel_int_fmt    "<U002B><U0025><U0063><U0020><U0025><U0061><U0020><U0025>/
+<U006C>"
+int_prefix     "<U0033><U0038><U0030>"
+END LC_TELEPHONE
+
+LC_MEASUREMENT
+copy "i18n"
+END LC_MEASUREMENT
+
+LC_NAME
+name_fmt    "<U0025><U0064><U0025><U0074><U0025><U0067><U0025><U0074>/
+<U0025><U006D><U0025><U0074><U0025><U0066>"
+END LC_NAME
+
+LC_ADDRESS
+postal_fmt    "<U0025><U0066><U0025><U004E><U0025><U0061><U0025><U004E>/
+<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
+<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
+<U004E><U0025><U007A><U0020><U0025><U0054><U0025>/
+<U004E><U0025><U0063><U0025><U004E>"
+country_name "<U0423><U043A><U0440><U0430><U0438><U043D><U0430>"
+country_ab2 "<U0055><U0041>"
+country_ab3 "<U0055><U004B><U0052>"
+country_num 804
+% UA
+country_car    "<U0055><U0041>"
+% ru
+lang_ab      "<U0072><U0075>"
+% rus
+lang_term    "<U0072><U0075><U0073>"
+% rus
+lang_lib    "<U0072><U0075><U0073>"
+END LC_ADDRESS
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Locale for Kinyarwanda locale in Rwanda
+% Contributed by Steve Murphy <murf@e-tools.com>, 2004
+% with help from:
+%  Mr. Safali
+
+LC_IDENTIFICATION
+title      "Kinyarwanda language locale for Rwanda"
+source     "Rwanda"
+address    "Rwanda, Africa"
+contact    "Steve Murphy"
+email      "murf@e-tools.com"
+tel        ""
+fax        ""
+language   "Kinyarwanda"
+territory  "Rwanda"
+revision   "1.0"
+date       "2004-02-24"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_MEASUREMENT
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "i18n"
+
+translit_start
+include  "translit_combining";""
+translit_end
+END LC_CTYPE
+
+LC_COLLATE
+% Copy the template from ISO/IEC 14651
+copy "iso14651_t1"
+END LC_COLLATE
+
+
+LC_MONETARY
+int_curr_symbol           "<U0052><U0057><U0046><U0020>"
+currency_symbol           "<U0046><U0052><U0077>"
+mon_decimal_point         "<U002C>"
+mon_thousands_sep         "<U002E>"
+mon_grouping              3;3
+positive_sign             ""
+negative_sign             "<U002D>"
+int_frac_digits           2
+frac_digits               2
+p_cs_precedes             0
+p_sep_by_space            1
+n_cs_precedes             0
+n_sep_by_space            1
+p_sign_posn               1
+n_sign_posn               1
+END LC_MONETARY
+
+LC_NUMERIC
+decimal_point             "<U002C>"
+thousands_sep             ""
+grouping                  -1
+END LC_NUMERIC
+
+LC_TIME
+abday   "<U004D><U0077><U0065>";"<U004D><U0062><U0065>";/
+        "<U004B><U0061><U0062>";"<U0047><U0074><U0075>";/
+        "<U004B><U0061><U006E>";"<U0047><U006E><U0075>";/
+        "<U0047><U006E><U0064>"
+day     "<U004B><U0075><U0020><U0063><U0079><U0075><U006D><U0077><U0065><U0072><U0075>";/
+        "<U004B><U0075><U0077><U0061><U0020><U006D><U0062><U0065><U0072><U0065>";/
+        "<U004B><U0075><U0077><U0061><U0020><U006B><U0061><U0062><U0069><U0072><U0069>";/
+        "<U004B><U0075><U0077><U0061><U0020><U0067><U0061><U0074><U0061><U0074><U0075>";/
+        "<U004B><U0075><U0077><U0061><U0020><U006B><U0061><U006E><U0065>";/
+        "<U004B><U0075><U0077><U0061><U0020><U0067><U0061><U0074><U0061><U006E><U0075>";/
+        "<U004B><U0075><U0077><U0061><U0020><U0067><U0061><U0074><U0061><U006E><U0064><U0061><U0074><U0075>"
+abmon   "<U004D><U0075><U0074>";"<U0047><U0061><U0073>";/
+        "<U0057><U0065><U0072>";"<U004D><U0061><U0074>";/
+        "<U0047><U0069><U0063>";"<U004B><U0061><U006D>";/
+        "<U004E><U0079><U0061>";"<U004B><U0061><U006E>";/
+        "<U004E><U007A><U0065>";"<U0055><U006B><U0077>";/
+        "<U0055><U0067><U0075>";"<U0055><U006B><U0075>"
+mon     "<U004D><U0075><U0074><U0061><U0072><U0061><U006D><U0061>";/
+        "<U0047><U0061><U0073><U0068><U0079><U0061><U006E><U0074><U0061><U0072><U0065>";/
+        "<U0057><U0065><U0072><U0075><U0072><U0077><U0065>";/
+        "<U004D><U0061><U0074><U0061>";/
+        "<U0047><U0069><U0063><U0075><U0072><U0061><U006E><U0073><U0069>";/
+        "<U004B><U0061><U006D><U0065><U006E><U0061>";/
+        "<U004E><U0079><U0061><U006B><U0061><U006E><U0067><U0061>";/
+        "<U004B><U0061><U006E><U0061><U006D><U0061>";/
+        "<U004E><U007A><U0065><U006C><U0069>";/
+        "<U0055><U006B><U0077><U0061><U006B><U0069><U0072><U0061>";/
+        "<U0055><U0067><U0075><U0073><U0068><U0079><U0069><U006E><U0067><U006F>";/
+        "<U0055><U006B><U0075><U0062><U006F><U007A><U0061>"
+d_t_fmt "<U0025><U0061><U0020><U0025><U0064><U0020><U0025><U0062><U0020><U0025><U0059><U0020><U0025><U0054><U0020><U0025><U005A>"
+d_fmt   "<U0025><U0064><U002E><U0025><U006D><U002E><U0025><U0059>"
+t_fmt   "<U0025><U0054>"
+am_pm   "";""
+t_fmt_ampm ""
+week 7;19971130;1
+first_weekday 2
+END LC_TIME
+
+LC_MESSAGES
+yesexpr "<U005E><U005B><U002B><U0031><U0079><U0059><U005D>"
+noexpr  "<U005E><U005B><U002D><U0030><U006E><U004E><U006F><U004F><U005D>"
+END LC_MESSAGES
+
+LC_PAPER
+copy "i18n"
+END LC_PAPER
+
+LC_NAME
+name_fmt    "<U0025><U0064><U0025><U0074><U0025><U0067><U0025><U0074>/
+<U0025><U006D><U0025><U0074><U0025><U0066>"
+END LC_NAME
+
+LC_ADDRESS
+postal_fmt    "<U0025><U0066><U0025><U004E><U0025><U0061><U0025><U004E>/
+<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
+<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
+<U004E><U0025><U007A><U0020><U0025><U0054><U0025>/
+<U004E><U0025><U0063><U0025><U004E>"
+country_name   "<U0052><U0077><U0061><U006E><U0064><U0061>"
+country_ab2    "<U0052><U0057>"
+country_ab3    "<U0052><U0057><U0041>"
+country_num 646
+% RWA
+country_car  "<U0052><U0057><U0041>"
+lang_name      "<U004B><U0069><U006E><U0079><U0061><U0072><U0077><U0061><U006E><U0064><U0061>"
+lang_ab        "<U0072><U0077>"
+lang_term      "<U006B><U0069><U006E>"
+lang_lib       "<U006B><U0069><U006E>"
+END LC_ADDRESS
+
+LC_TELEPHONE
+tel_int_fmt    "<U002B><U0025><U0063><U0020><U0025><U0061><U0020><U0025>/
+<U006C>"
+tel_dom_fmt    "<U0025><U0061><U0025><U006C>"
+int_prefix     "<U0032><U0035><U0030>"
+END LC_TELEPHONE
+
+LC_MEASUREMENT
+copy "i18n"
+END LC_MEASUREMENT
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Sanskrit language locale for India.
+% Contributed by Vidya Ayer <svaksha@gmail.com>
+% and Christian Perrier <bubulle@debian.org>
+
+LC_IDENTIFICATION
+title      "Sanskrit language locale for India"
+source     "The Debian project"
+address    ""
+contact    "Christian Perrier"
+email      "bubulle@debian.org"
+tel        ""
+fax        ""
+language   "Sanskrit"
+territory  "India"
+revision   "1.0"
+date       "2005-09-25"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+category "i18n:2012";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "i18n"
+
+translit_start
+include "translit_combining";""
+translit_end
+END LC_CTYPE
+
+LC_COLLATE
+
+% Copy the template from ISO/IEC 14651
+copy "iso14651_t1"
+
+END LC_COLLATE
+
+LC_MONETARY
+% This is the POSIX Locale definition the LC_MONETARY category.
+% These are generated based on XML base Locale definition file
+% for IBM Class for Unicode/Java
+%
+int_curr_symbol       "<U0049><U004E><U0052><U0020>"
+currency_symbol       "<U20B9>"
+mon_decimal_point     "<U002E>"
+mon_thousands_sep     "<U002C>"
+mon_grouping          3
+positive_sign         ""
+negative_sign         "<U002D>"
+int_frac_digits       2
+frac_digits           2
+p_cs_precedes         1
+p_sep_by_space        1
+n_cs_precedes         1
+n_sep_by_space        1
+p_sign_posn           1
+n_sign_posn           1
+%
+END LC_MONETARY
+
+
+LC_NUMERIC
+% This is the POSIX Locale definition for the LC_NUMERIC  category.
+%
+decimal_point          "<U002E>"
+thousands_sep          "<U002C>"
+grouping               3
+%
+END LC_NUMERIC
+
+
+LC_TIME
+% This is the POSIX Locale definition for the LC_TIME category.
+% These are generated based on XML base Locale definition file
+% for IBM Class for Unicode/Java
+%
+% Abbreviated weekday names (%a)
+% ravih,somah,mangalah,budhah,brhaspatih,shukra,shanih
+abday       "<U0930><U0935><U093F><U0903>";/
+            "<U0938><U094B><U092E><U003A>";/
+            "<U092E><U0902><U0917><U0932><U003A>";/
+            "<U092C><U0941><U0927><U003A>";/
+            "<U092C><U0943><U0939><U0938><U094D><U092A><U0924><U093F><U0903>";/
+            "<U0936><U0941><U0915><U094D><U0930>";/
+            "<U0936><U0928><U093F><U003A>"
+%
+% Full weekday names (%A)
+% ravivasarah, somavasarah, mangalavasarah, budhavasarah, brhaspativasarah, shukravasarah, shanivasarah
+day         "<U0930><U0935><U093F><U0935><U093E><U0938><U0930><U003A>";/
+            "<U0938><U094B><U092E><U0935><U093E><U0938><U0930><U003A>";/
+            "<U092E><U0902><U0917><U0932><U0935><U093E><U0938><U0930><U003A>";/
+            "<U092C><U0941><U0927><U0935><U093E><U0938><U0930><U003A>";/
+            "<U092C><U0943><U0939><U0938><U094D><U092A><U0924><U093F><U0935><U093E><U0938><U0930><U0903>";/
+            "<U0936><U0941><U0915><U094D><U0930><U0935><U093E><U0938><U0930>";/
+            "<U0936><U0928><U093F><U0935><U093E><U0938><U0930><U003A>"
+%
+% Abbreviated month names (%b)
+% Below comes from hi_IN.
+% Sanskrit uses a lunar calendar. When gregorian month names
+% are needed, the names are the same names than those used
+% by Hindi
+% names for gregorian month names:
+abmon       "<U091C><U0928><U0935><U0930><U0940>";/
+            "<U092B><U093C><U0930><U0935><U0930><U0940>";/
+            "<U092E><U093E><U0930><U094D><U091A>";/
+            "<U0905><U092A><U094D><U0930><U0947><U0932>";/
+            "<U092E><U0908>";/
+            "<U091C><U0942><U0928>";/
+            "<U091C><U0941><U0932><U093E><U0908>";/
+            "<U0905><U0917><U0938><U094D><U0924>";/
+            "<U0938><U093F><U0924><U092E><U094D><U092C><U0930>";/
+            "<U0905><U0915><U094D><U091F><U0942><U092C><U0930>";/
+            "<U0928><U0935><U092E><U094D><U092C><U0930>";/
+            "<U0926><U093F><U0938><U092E><U094D><U092C><U0930>"
+%
+% Full month names (%B)
+% Sanskrit uses a lunar calendar. When gregorian month names
+% are needed, the names are the same names than those used
+% by Hindi
+% Lunar calendar month names:
+% Chaitra            March 22
+% Vaisakha           April 29
+% jyeshthah          May 22
+% ashadah            June 22
+% shravanah          July 23
+% bhadrapadah        August 23
+% ashvinah           September 23
+% kartikah           October 23
+% margashirsah       November 22
+% paushah            December 22
+% maghah             January 29
+% phalgunah          February 20
+% names for gregorian month names:
+mon         "<U091C><U0928><U0935><U0930><U0940>";/
+            "<U092B><U093C><U0930><U0935><U0930><U0940>";/
+            "<U092E><U093E><U0930><U094D><U091A>";/
+            "<U0905><U092A><U094D><U0930><U0947><U0932>";/
+            "<U092E><U0908>";/
+            "<U091C><U0942><U0928>";/
+            "<U091C><U0941><U0932><U093E><U0908>";/
+            "<U0905><U0917><U0938><U094D><U0924>";/
+            "<U0938><U093F><U0924><U092E><U094D><U092C><U0930>";/
+            "<U0905><U0915><U094D><U091F><U0942><U092C><U0930>";/
+            "<U0928><U0935><U092E><U094D><U092C><U0930>";/
+            "<U0926><U093F><U0938><U092E><U094D><U092C><U0930>"
+%
+% Equivalent of AM PM
+am_pm       "<U092A><U0942><U0930><U094D><U0935><U093E><U0939><U094D><U0928>";/
+            "<U0905><U092A><U0930><U093E><U0939><U094D><U0928>"
+%
+% Appropriate date and time representation
+% %A %d %b %Y%I:%M:%S  %Z
+d_t_fmt     "<U0025><U0041><U0020><U0025><U0064><U0020><U0025><U0062>/
+<U0020><U0025><U0059><U0020><U0025><U0049><U003A><U0025><U004D><U003A>/
+<U0025><U0053><U0020><U0025><U0070><U0020><U0025><U005A>"
+%
+% Appropriate date representation
+% %A %d %b %Y
+d_fmt       "<U0025><U0041><U0020><U0025><U0064><U0020><U0025><U0062>/
+<U0020><U0025><U0059>"
+%
+% Appropriate time representation
+% %I:%M:%S  %Z
+t_fmt       "<U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053>/
+<U0020><U0020><U0025><U005A>"
+%
+% Appropriate 12 h time representation (%r)
+t_fmt_ampm  "<U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053>/
+<U0020><U0025><U0070><U0020><U0025><U005A>"
+week 7;19971130;1
+END LC_TIME
+
+
+LC_MESSAGES
+yesexpr "<U005E><U005B><U002B><U0031><U0061><U0041><U0079><U0059><U005D>"
+noexpr  "<U005E><U005B><U002D><U0030><U006E><U004E><U005D>"
+END LC_MESSAGES
+
+
+LC_PAPER
+copy "hi_IN"
+END LC_PAPER
+
+
+LC_NAME
+% This is the ISO_IEC TR14652 Locale definition for the
+% LC_NAME category.
+%
+name_fmt    "<U0025><U0070><U0025><U0074><U0025><U0066><U0025><U0074>/
+<U0025><U0067>"
+name_gen    ""
+%
+% shri
+name_mr     "<U0936><U094D><U0930><U0940>"
+% For boys under 18, this is "kumar"
+% but locales are sexist and do not even imagine
+% that some language may have different forms for MEN too
+% name_mr     "<U0915><U0941><U092E><U093E><U0930>"
+% shrimati
+name_mrs    "<U0936><U094D><U0930><U0940><U092E><U0924><U0940>"
+% kumari
+name_miss   "<U0915><U0941><U092E><U093E><U0930><U0940>"
+% shrimati
+name_ms     "<U0936><U094D><U0930><U0940><U092E><U0924><U0940>"
+
+END LC_NAME
+
+
+LC_ADDRESS
+% This is the ISO_IEC TR14652 Locale definition for the
+% LC_ADDRESS
+postal_fmt  "<U0025><U007A><U0025><U0063><U0025><U0054><U0025><U0073>/
+<U0025><U0062><U0025><U0065><U0025><U0072>"
+country_ab2 "<U0049><U004E>"
+country_ab3 "<U0049><U004E><U0044>"
+country_num 356
+% IND
+country_car    "<U0049><U004E><U0044>"
+% संस्कृतम्
+lang_name    "<U0938><U0902><U0938><U094D><U0915><U0943><U0924><U092E><U094D>"
+% sa
+lang_ab      "<U0073><U0061>"
+% san
+lang_term    "<U0073><U0061><U006E>"
+% san
+lang_lib    "<U0073><U0061><U006E>"
+END LC_ADDRESS
+
+
+LC_TELEPHONE
+% This is the ISO_IEC TR14652 Locale definition for the LC_TELEPHONE
+% generated by IBM Basic CountryPack Transformer.
+tel_int_fmt "<U002B><U0025><U0063><U0020><U003B><U0025><U0061><U0020><U003B><U0025><U006C>"
+int_prefix "<U0039><U0031>"
+int_select "<U0030><U0030>"
+END LC_TELEPHONE
+
+
+LC_MEASUREMENT
+copy "hi_IN"
+END LC_MEASUREMENT
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Walloon Language Locale for Belgium with Euro
+% Language: wa
+% Territory: BE
+% Option: euro
+% Date: 2002-02-23
+% Users: general
+% Charset: ISO-8859-15
+
+LC_IDENTIFICATION
+title      "Walloon locale for Belgium with Euro"
+source     "Free Software Foundation, Inc."
+address    "http:////www.gnu.org//software//libc//"
+contact    ""
+email      "bug-glibc-locales@gnu.org"
+tel        ""
+fax        ""
+language   "Walloon"
+territory  "Belgium"
+revision   "1.0"
+date       "2002-02-23"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+category "i18n:2012";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "wa_BE"
+END LC_CTYPE
+
+LC_COLLATE
+copy "wa_BE"
+END LC_COLLATE
+
+LC_MESSAGES
+copy "wa_BE"
+END LC_MESSAGES
+
+LC_MONETARY
+copy "fr_BE@euro"
+END LC_MONETARY
+
+LC_NUMERIC
+copy "wa_BE"
+END LC_NUMERIC
+
+LC_TIME
+copy "wa_BE"
+END LC_TIME
+
+LC_PAPER
+copy "wa_BE"
+END LC_PAPER
+
+LC_TELEPHONE
+copy "wa_BE"
+END LC_TELEPHONE
+
+LC_MEASUREMENT
+copy "wa_BE"
+END LC_MEASUREMENT
+
+LC_NAME
+copy "wa_BE"
+END LC_NAME
+
+LC_ADDRESS
+copy "wa_BE"
+END LC_ADDRESS
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Santali language locale for India.
+% Contributed by Mr. Pravin Satpute <psatpute AT redhat DOT com>  and Mr. Thakur Prasad Murmu <tp_murmu AT yahoo DOT com>
+
+LC_IDENTIFICATION
+title      "Santali language locale for India"
+source     "Red Hat Pune"
+address    "Level 1, Tower X, Cybercity, Magarpatta City, Hadapsar, Pune-411013 "
+contact    ""
+email      "libc-alpha@sourceware.org"
+tel        ""
+fax        ""
+language   "Santali"
+territory  "India"
+revision   "1.0"
+date       "2012-01-17"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+category "i18n:2012";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "hi_IN"
+END LC_CTYPE
+
+LC_COLLATE
+copy "hi_IN"
+END LC_COLLATE
+
+LC_MONETARY
+copy "hi_IN"
+END LC_MONETARY
+
+
+LC_NUMERIC
+copy "hi_IN"
+END LC_NUMERIC
+
+
+LC_TIME
+% This is the POSIX Locale definition for the LC_TIME category
+% generated by IBM Basic CountryPack Transformer.
+% These are generated based on XML base Locale definition file
+% for IBM Class for Unicode.
+%
+% Abbreviated weekday names (%a)
+abday       "<U0938><U093F><U0902><U0917><U0947>";"<U0913><U0924><U0947>";/
+            "<U092C><U093E><U0932><U0947>";"<U0938><U093E><U0917><U0941><U0928>";/
+            "<U0938><U093E><U0930><U0926><U0940>";/
+            "<U091C><U093E><U0930><U0941><U092E>";"<U091E><U0941><U0939><U0941><U092E>"
+%
+
+% Full weekday names (%A)
+day         "<U0938><U093F><U0902><U0917><U0947><U092E><U093E><U0901><U0939><U093E><U0901>";/
+            "<U0913><U0924><U0947><U092E><U093E><U0901><U0939><U093E><U0901>";/
+            "<U092C><U093E><U0932><U0947><U092E><U093E><U0901><U0939><U093E><U0901>";/
+            "<U0938><U093E><U0917><U0941><U0928><U092E><U093E><U0901><U0939><U093E><U0901>";/
+            "<U0938><U093E><U0930><U0926><U0940><U092E><U093E><U0901><U0939><U093E><U0901>";/
+            "<U091C><U093E><U0930><U0941><U092E><U092E><U093E><U0901><U0939><U093E><U0901>";/
+            "<U091E><U0941><U0939><U0941><U092E><U092E><U093E><U0901><U0939><U093E><U0901>"
+%
+% Abbreviated month names (%b)
+abmon         "<U091C><U0928><U0935><U0930><U0940>";/
+            "<U092B><U0930><U0935><U0930><U0940>";/
+            "<U092E><U093E><U0930><U094D><U091A>";/
+            "<U0905><U092A><U094D><U0930><U0947><U0932>";/
+            "<U092E><U0908>";/
+            "<U091C><U0941><U0928>";/
+            "<U091C><U0941><U0932><U093E><U0908>";/
+            "<U0905><U0917><U0938><U094D><U0924>";/
+            "<U0938><U093F><U0924><U092E><U094D><U092C><U0930>";/
+            "<U0905><U0916><U0925><U092C><U0930>";/
+            "<U0928><U0935><U092E><U094D><U092C><U0930>";/
+            "<U0926><U093F><U0938><U092E><U094D><U092C><U0930>"
+%
+
+% Full month names (%B)
+mon         "<U091C><U0928><U0935><U0930><U0940>";/
+            "<U092B><U0930><U0935><U0930><U0940>";/
+            "<U092E><U093E><U0930><U094D><U091A>";/
+            "<U0905><U092A><U094D><U0930><U0947><U0932>";/
+            "<U092E><U0908>";/
+            "<U091C><U0941><U0928>";/
+            "<U091C><U0941><U0932><U093E><U0908>";/
+            "<U0905><U0917><U0938><U094D><U0924>";/
+            "<U0938><U093F><U0924><U092E><U094D><U092C><U0930>";/
+            "<U0905><U0916><U0925><U092C><U0930>";/
+            "<U0928><U0935><U092E><U094D><U092C><U0930>";/
+            "<U0926><U093F><U0938><U092E><U094D><U092C><U0930>"
+%
+% Equivalent of AM PM
+
+am_pm       "<U0041><U004D>";"<U0050><U004D>"
+
+%
+% Appropriate date and time representation
+% %A %d %b %Y%I:%M:%S  %Z
+d_t_fmt     "<U0025><U0041><U0020><U0025><U0064><U0020><U0025><U0062>/
+<U0020><U0025><U0059><U0020><U0025><U0049><U003A><U0025><U004D><U003A>/
+<U0025><U0053><U0020><U0025><U0070><U0020><U0025><U005A>"
+%
+% Appropriate date representation
+% %A %d %b %Y
+d_fmt       "<U0025><U0041><U0020><U0025><U0064><U0020><U0025><U0062>/
+<U0020><U0025><U0059>"
+%
+% Appropriate time representation
+% %I:%M:%S  %Z
+t_fmt       "<U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053>/
+<U0020><U0020><U0025><U005A>"
+%
+% Appropriate 12 h time representation (%r)
+t_fmt_ampm  "<U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053>/
+<U0020><U0025><U0070><U0020><U0025><U005A>"
+week 7;19971130;1
+END LC_TIME
+
+
+LC_MESSAGES
+yesexpr "<U005E><U0028><U0939><U094B><U092F><U007C><U005B><U002B><U0031>/
+<U0079><U0059><U005D><U0029>"
+noexpr  "<U005E><U0028><U092C><U093E><U0919><U007C><U005B><U002D><U0030>/
+<U006E><U004E><U005D><U0029>"
+END LC_MESSAGES
+
+
+LC_PAPER
+copy "hi_IN"
+END LC_PAPER
+
+
+LC_NAME
+% This is the ISO_IEC TR14652 Locale definition for the LC_NAME category
+% generated by IBM Basic CountryPack Transformer.
+%
+%
+name_fmt    "<U0025><U0070><U0025><U0074><U0025><U0066><U0025><U0074>/
+<U0025><U0067>"
+name_gen    ""
+name_mr     "<U092E><U093E><U0928>"
+name_mrs    "<U092E><U093E><U0928><U0940>"
+name_miss   "<U092E><U093E><U0908>"
+name_ms     ""
+
+END LC_NAME
+
+
+LC_ADDRESS
+
+postal_fmt  "<U0025><U007A><U0025><U0063><U0025><U0054><U0025><U0073>/
+<U0025><U0062><U0025><U0065><U0025><U0072>"
+country_ab2 "<U0049><U004E>"
+country_ab3 "<U0049><U004E><U0044>"
+country_num 356
+% IND
+country_car    "<U0049><U004E><U0044>"
+% Satār
+lang_name    "<U0053><U0061><U0074><U0101><U0072>"
+% sat
+lang_term    "<U0073><U0061><U0074>"
+% sat
+lang_lib    "<U0073><U0061><U0074>"
+END LC_ADDRESS
+
+
+LC_TELEPHONE
+copy "hi_IN"
+END LC_TELEPHONE
+
+
+LC_MEASUREMENT
+copy "hi_IN"
+END LC_MEASUREMENT
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Sardinian Language Locale for Italy
+% Language: sc
+% Territory: IT
+% Revision: 0.1
+% Date: 2004-05-26
+% Users: general
+% Charset: UTF-8
+
+LC_IDENTIFICATION
+title      "Sardinian locale for Italy"
+source     ""
+address    ""
+contact    "Pablo Saratxaga"
+email      "pablo@mandriva.com"
+tel        ""
+fax        ""
+language   "Sardinian"
+territory  "Italy"
+revision   "0.1"
+date       "2004-05-26"
+
+category "i18n:2012";LC_IDENTIFICATION
+category "i18n:2012";LC_CTYPE
+category "i18n:2012";LC_COLLATE
+category "i18n:2012";LC_TIME
+category "i18n:2012";LC_NUMERIC
+category "i18n:2012";LC_MONETARY
+category "i18n:2012";LC_MESSAGES
+category "i18n:2012";LC_PAPER
+category "i18n:2012";LC_NAME
+category "i18n:2012";LC_ADDRESS
+category "i18n:2012";LC_TELEPHONE
+category "i18n:2012";LC_MEASUREMENT
+END LC_IDENTIFICATION
+
+LC_CTYPE
+copy "it_IT"
+END LC_CTYPE
+
+LC_COLLATE
+copy "iso14651_t1"
+
+collating-symbol <c,>
+
+reorder-after <c>
+<c,>
+
+reorder-after <U0063>
+<U00E7> <c,>;<CDI>;<MIN>;IGNORE
+reorder-after <U0043>
+<U00C7> <c,>;<CDI>;<CAP>;IGNORE
+
+reorder-end
+
+END LC_COLLATE
+
+LC_MESSAGES
+yesexpr "<U005E><U005B><U002B><U0031><U0073><U0053><U006A><U004A><U006F><U004F><U0079><U0059><U005D>"
+noexpr  "<U005E><U005B><U002D><U0030><U006E><U004E><U005D>"
+END LC_MESSAGES
+
+LC_MONETARY
+copy  "it_IT"
+END LC_MONETARY
+
+LC_NUMERIC
+copy  "it_IT"
+END LC_NUMERIC
+
+LC_TIME
+abday   "<U0044><U006F><U006D>";"<U004C><U0075><U006E>";/
+        "<U004D><U0061><U0072>";"<U004D><U00E8><U0072>";/
+        "<U004A><U00F2><U0062>";"<U0043><U0065><U006E>";/
+        "<U0053><U00E0><U0062>"
+day     "<U0044><U006F><U006D><U00EC><U006E><U0067><U0075>";/
+        "<U004C><U0075><U006E><U0069><U0073>";/
+        "<U004D><U0061><U0072><U0074><U0069><U0073>";/
+        "<U004D><U00E8><U0072><U0063><U0075><U0072><U0069><U0073>";/
+        "<U004A><U00F2><U0062><U0069><U0061>";/
+        "<U0043><U0065><U006E><U00E0><U0062><U0061><U0072><U0061>";/
+        "<U0053><U00E0><U0062><U0061><U0064><U0075>"
+abmon   "<U0047><U0065><U006E>";"<U0046><U0072><U0069>";/
+        "<U004D><U0061><U0072>";"<U0041><U0062><U0072>";/
+        "<U004D><U0061><U0079>";"<U004C><U00E0><U006D>";/
+        "<U0041><U0072><U006A>";"<U0041><U0075><U0073>";/
+        "<U0043><U0061><U0062>";"<U004C><U0061><U0064>";/
+        "<U0044><U006F><U006E>";"<U0049><U0064><U0061>"
+mon     "<U0047><U0065><U006E><U006E><U0061><U0072><U006A><U0075>";/
+        "<U0046><U0072><U0069><U0061><U0072><U006A><U0075>";/
+        "<U004D><U0061><U0072><U0074><U007A><U0075>";/
+        "<U0041><U0062><U0072><U0069><U006C><U0069>";/
+        "<U004D><U0061><U0079><U0075>";/
+        "<U004C><U00E0><U006D><U0070><U0061><U0064><U0061><U0073>";/
+        "<U0041><U0072><U006A><U006F><U006C><U0061><U0073>";/
+        "<U0041><U0075><U0073><U0074><U0075>";/
+        "<U0043><U0061><U0062><U0075><U0064><U0061><U006E><U006E><U0069>";/
+        "<U004C><U0061><U0064><U00E0><U006D><U0069><U006E><U0069>";/
+        "<U0044><U006F><U006E><U006E><U0079><U0061><U0073><U0061><U006E><U0074><U0075>";/
+        "<U0049><U0064><U0061><U0073>"
+d_t_fmt "<U0025><U0061><U0020><U0025><U0064><U0020><U0025><U0062><U0020><U0025><U0059><U0020><U0025><U0054><U0020><U0025><U005A>"
+d_fmt   "<U0025><U0064><U002E><U0020><U0025><U006D><U002E><U0020><U0025><U0079>"
+t_fmt   "<U0025><U0054>"
+am_pm   "";""
+t_fmt_ampm ""
+week	7;19971130;4
+first_weekday	2
+END LC_TIME
+
+LC_PAPER
+copy  "it_IT"
+END LC_PAPER
+
+LC_TELEPHONE
+copy  "it_IT"
+END LC_TELEPHONE
+
+LC_MEASUREMENT
+copy "it_IT"
+END LC_MEASUREMENT
+
+LC_NAME
+copy  "it_IT"
+END LC_NAME
+
+LC_ADDRESS
+postal_fmt    "<U0025><U0066><U0025><U004E><U0025><U0061><U0025><U004E>/
+<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
+<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
+<U004E><U0025><U007A><U0020><U0025><U0054><U0025>/
+<U004E><U0025><U0063><U0025><U004E>"
+country_ab2 "<U0049><U0054>"
+country_ab3 "<U0049><U0054><U0041>"
+country_num 380
+% I
+country_car    "<U0049>"
+% Sardu
+lang_name    "<U0053><U0061><U0072><U0064><U0075>"
+% sc
+lang_ab      "<U0073><U0063>"
+% srd
+lang_term    "<U0073><U0072><U0064>"
+% srd
+lang_lib    "<U0073><U0072><U0064>"
+END LC_ADDRESS
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  comment_char %
+escape_char /
+
+% This file is part of the GNU C Library and contains locale data.
+% The Free Software Foundation does not claim any copyright interest
+% in the locale data contained in this file.  The foregoing does not
+% affect the license of the GNU C Library as a whole.  It does not
+% exempt you from the conditions of the license if your use would
+% otherwise be governed by that license.
+
+% Sindhi language locale for India.
+% Contributed by Pravin Satpute <psatpute@redhat.com> and
+% DR K.P. LEKHWANI
+
+LC_IDENTIFICATION
+
+title      "Sindhi language locale for India"
+source     "Red Hat, Pu
